@@ -1,6 +1,8 @@
 import unittest
 import requests
 from selenium import webdriver
+from pyvirtualdisplay import Display
+
 
 #PHANTOMJS_DRIVER = r'C:\\python27\\phantomjs.exe'
 
@@ -8,6 +10,8 @@ class BaseTestCase(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
+        cls.display = Display(visible=0, size=(1024, 768)).start()
+        cls.display.start()
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         super(BaseTestCase, cls).setUpClass()
@@ -16,8 +20,9 @@ class BaseTestCase(unittest.TestCase):
     def tearDownClass(cls):
         super(BaseTestCase, cls).tearDownClass()
         cls.driver.quit()
+        cls.display.stop()
 
-class TestEshots(BaseTestCase):
+class TestCloserlook(BaseTestCase):
     
     #@unittest.skip('wip')
     def test_searchterm_not_found(self):
