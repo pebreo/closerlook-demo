@@ -11,7 +11,6 @@ class BaseTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.display = Display(visible=0, size=(1024, 768)).start()
-        cls.display.start()
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         super(BaseTestCase, cls).setUpClass()
