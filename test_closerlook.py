@@ -20,20 +20,21 @@ class BaseTestCase(unittest.TestCase):
 class TestEshots(BaseTestCase):
     
     #@unittest.skip('wip')
-    def test_invalid_login(self):
-        """ Test invalid login credentials to eshots """
-        self.driver.get('https://reporting.eshots.com/pentaho/Login')
-        self.driver.find_element_by_id('username').send_keys('invalidname')
-        self.driver.find_element_by_id('password').send_keys('invalidname')
-        self.driver.find_element_by_id('login-button').click()
-        self.driver.save_screenshot('invalid_login.png')
-        assert 'Invalid login.' in self.driver.page_source
+    def test_searchterm_not_found(self):
+        """ Expect no search results when given a nonsense search term """
+        self.driver.get('http://closerlook.com')
+        self.driver.find_element_by_id('menu-search').click()
+        self.driver.find_element_by_id('username').send_keys('thissearchtermwillnotbefound')
+        self.driver.save_screenshot('noresultsfound_result.png')
+        assert 'No results were found.' in self.driver.page_source
 
 
-    def test_empty_form_submission(self):
-        """ Test empty form submission """
-        self.driver.get('http://closerlook.com/request-demo/')
-        self.driver.find_element_by_id('submit').click()
+    def test_blank_searchterm(self):
+        """ Expect redirect to mainpaige when given a blank search term """
+        self.driver.get('http://closerlook.com')
+        self.driver.find_element_by_id('menu-search').click()
+        self.driver.find_element_by_id('username').send_keys('')
+        self.driver.save_screenshot('redirect_result.png')
         assert 'Required' in self.driver.page_source
 
 
